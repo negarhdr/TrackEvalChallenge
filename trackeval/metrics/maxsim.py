@@ -19,7 +19,8 @@ class MaxSim(_BaseMetric):
     @staticmethod
     def get_default_config():
         """Default class config values"""
-        default_config = {'COMBINE_METHOD': 'max',  # The aggregation method for combining the results within and between sequences. Default: 'max'
+        default_config = {
+            'COMBINE_METHOD': 'max',  # The aggregation method for combining the results within and between sequences. Default: 'max'
             'PRINT_CONFIG': True,  # Whether to print the config information on init. Default: False.
         }
         return default_config
@@ -61,7 +62,6 @@ class MaxSim(_BaseMetric):
 
         # Initialise results
         seq_res = {}
-
         for field in self.fields:
             # Return 0 if no ground truth or detections are present
             if data['num_tracker_dets'] == 0 or data['num_gt_dets'] == 0:
@@ -78,7 +78,6 @@ class MaxSim(_BaseMetric):
                         frame_results.append(0.0)  
                 # Return the aggregated result using the specified combination method
                 seq_res[field] = self.combine_per_sequence(frame_results)
-            
         return seq_res
     
     def combine_per_sequence(self, frame_results):
@@ -98,7 +97,7 @@ class MaxSim(_BaseMetric):
         res = {}
         for field in self.fields:
             res[field] = self._combine_sim([all_res[k][field] for k in all_res.keys()])
-            return res
+        return res
     
     def combine_classes_class_averaged(self, all_res, ignore_empty_classes=False):
         pass
@@ -113,11 +112,11 @@ class MaxSim(_BaseMetric):
         :return: Combined result based on a combination method
         """
         if self.combine_method == "max":
-            return max(res) #{'MaxSim': max(res)}
+            return max(res) 
         elif self.combine_method == "average":
-            return sum(res) / len(res) #{'MaxSim': sum(res) / len(res)}
+            return sum(res) / len(res) 
         elif self.combine_method == "sum":
-            return sum(res) #{'MaxSim': sum(res)}
+            return sum(res) 
         else:
             raise ValueError(f"Unknown method: {self.combine_method}")
 
