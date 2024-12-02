@@ -10,17 +10,18 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import argparse
-import trackeval
 from scripts.base_runner import BaseRunner
+from trackeval import metrics, datasets, Evaluator
+
 
 class MotChallengeRunner(BaseRunner):
     def __init__(self):
         """
         Initialize MotChallengeRunner with specific default configurations.
         """
-        default_eval_config = trackeval.Evaluator.get_default_eval_config()
+        default_eval_config = Evaluator.get_default_eval_config()
         default_eval_config['DISPLAY_LESS_PROGRESS'] = False
-        default_dataset_config = trackeval.datasets.MotChallenge2DBox.get_default_dataset_config()
+        default_dataset_config = datasets.MotChallenge2DBox.get_default_dataset_config()
         default_metrics_config = {'METRICS': ['HOTA', 'CLEAR', 'Identity', 'VACE', 'MaxSim'], 'THRESHOLD': 0.5}
         super().__init__(default_eval_config, default_dataset_config, default_metrics_config)
 
@@ -61,6 +62,6 @@ class MotChallengeRunner(BaseRunner):
 if __name__ == '__main__':
     runner = MotChallengeRunner()
     runner.run(
-        dataset_cls=trackeval.datasets.MotChallenge2DBox,
-        metric_classes=[trackeval.metrics.HOTA, trackeval.metrics.CLEAR, trackeval.metrics.Identity, trackeval.metrics.VACE, trackeval.metrics.MaxSim]
+        dataset_cls=datasets.MotChallenge2DBox,
+        metric_classes=[metrics.HOTA, metrics.CLEAR, metrics.Identity, metrics.VACE, metrics.MaxSim]
     )
