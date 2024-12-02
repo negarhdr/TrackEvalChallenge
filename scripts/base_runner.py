@@ -1,5 +1,3 @@
-# scripts/base_runner.py
-
 """ 
 base_runner.py 
 
@@ -7,7 +5,7 @@ Run Example:
     python scripts/base_runner.py 
 """
 
-import trackeval 
+from trackeval import Evaluator
 
 class BaseRunner:
     def __init__(self, default_eval_config, default_dataset_config, default_metrics_config):
@@ -68,7 +66,7 @@ class BaseRunner:
         dataset_config = self.filter_config(self.config, self.default_dataset_config.keys())
         metrics_config = self.filter_config(self.config, self.default_metrics_config.keys())
 
-        evaluator = trackeval.Evaluator(eval_config)
+        evaluator = Evaluator(eval_config)
         dataset_list = [dataset_cls(dataset_config)]
         metrics_list = [
             metric() for metric in metric_classes if metric.get_name() in metrics_config['METRICS']
